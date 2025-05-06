@@ -5,14 +5,16 @@ phases:
     runtime-versions:
       php: 8.1
     commands:
-      - echo Installing Composer...
-      - curl -sS https://getcomposer.org/installer | php
-      - php composer.phar install
+      - echo Installing custom PHP version 8.1.12...
+      - phpenv install 8.1.12
+      - phpenv global 8.1.12
   build:
     commands:
-      - echo Build started...
+      - echo Build started on `date`
+      - composer install
       - php artisan config:cache
+      - php artisan migrate --force
 artifacts:
   files:
     - '**/*'
-# added buildspec.yml
+  discard-paths: yes
